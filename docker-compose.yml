@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  hugo:
+    image: jojomi/hugo:latest
+    volumes:
+      - ./src/:/src
+      - ./output/:/output
+    environment:
+      - HUGO_REFRESH_TIME=3600
+      - HUGO_THEME=onepress
+      - HUGO_BASEURL=http://example.org/
+    restart: always
+
+  web:
+    image: jojomi/nginx-static
+    volumes:
+      - ./output:/var/www
+    environment:
+      - VIRTUAL_HOST=http://example.org/
+    ports:
+      - 80
+    restart: always
